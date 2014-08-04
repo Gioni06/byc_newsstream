@@ -1,41 +1,27 @@
 <?php
-    require_once('api.php');
-        function getUrl() {
-            $url  = @( $_SERVER["HTTPS"] != 'on' ) ? 'http://'.$_SERVER["SERVER_NAME"] :  'https://'.$_SERVER["SERVER_NAME"];
-            $url .= ( $_SERVER["SERVER_PORT"] !== 80 ) ? ":".$_SERVER["SERVER_PORT"] : "";
-            $url .= $_SERVER["REQUEST_URI"];
-            return $url;
-        }
-        $requestURI = explode("/", getUrl());
-        $scriptName = explode("/", $_SERVER["SCRIPT_NAME"]);
 
-        for($i= 0;$i < sizeof($scriptName);$i++)
-        {
-            if ($requestURI[$i]     == $scriptName[$i])
-            {
-                unset($requestURI[$i]);
-            }
-        }
+require 'vendor/autoload.php';
+require 'vendor/illuminate/support/Illuminate/Support/helpers.php';
 
-$command = array_values($requestURI);
-$api = New Api;
-//$api->getPostbyId(3);
+$basePath = str_finish(dirname(__FILE__), '/');
+$controllersDirectory = $basePath . 'Controllers';
+$modelsDirectory = $basePath . 'Models';
 
-switch($command[4])
-{
+Illuminate\Support\ClassLoader::register();
+Illuminate\Support\ClassLoader::addDirectories(array($controllersDirectory, $modelsDirectory));
 
-    case "getPost" :
-                echo($api->allData());
-                break;
+$app = new Illuminate\Container\Container;
+Illuminate\Support\Facades\Facade::setFacadeApplication($app);
 
-    case "getPostById" :
-                $id =  intval($command[5]);
-                echo($api->getPostbyId($id));
+$app['app'] = $app;
+$app['env'] = 'production';
 
-    case "gewinnspiel" :
-        echo "Gewinnspiel";
-    default:
-        //echo("redirect to home");
-        //break;
-}
-//var_dump($command[4]);
+with(new Illuminate\Events\EventServiceProvider($app))->register();
+with(new Illuminate\Routing\RoutingServiceProvider($app))->register();
+
+require $basePath . 'routes.php';
+
+$request = Illuminate\Http\Request::createFromGlobals();
+$response = $app['router']->dispatch($request);
+
+$response->send();

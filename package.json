@@ -1,0 +1,27 @@
+{
+  "name": "newStreet",
+  "version": "0.0.0",
+  "description": "[\r   '{{repeat(16, 16)}}',\r   {\r     index: '{{index()}}',\r     title: '{{lorem(4, \"words\")}}',\r     body: '{{lorem(1, \"paragraphs\")}}',\r     picture: 'http://placehold.it/400x400',\r     registered: '{{date(new Date(2014, 0, 1), new Date(), \"YYYY-MM-dd\")}}',\r     tags:'{{random(\"Blogger\", \"Tipps\", \"Must Have\", \"Gewinnspiel\")}}'",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Gioni06/byc_newsstream.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Gioni06/byc_newsstream/issues"
+  },
+  "homepage": "https://github.com/Gioni06/byc_newsstream",
+  "devDependencies": {
+      "grunt": "^0.4.5",
+      "grunt-contrib-coffee": "^0.10.1",
+      "grunt-contrib-concat": "^0.5.0",
+      "grunt-contrib-jshint": "^0.10.0",
+      "grunt-contrib-uglify": "^0.5.1",
+      "grunt-contrib-watch": "^0.6.1"
+  }
+}

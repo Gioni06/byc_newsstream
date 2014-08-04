@@ -3,7 +3,7 @@
 class Api {
     public $dataJson;
     public function __construct() {
-        $this->dataJson = file_get_contents('http://192.168.1.100/byc_newsstream/data.json');
+        $this->dataJson = file_get_contents('http://localhost/newStreet/data.json');
     }
     public function allData()  {
         $data = $this->dataJson;
